@@ -1,0 +1,9 @@
+SELECT  a.*
+FROM    test.poetry a
+        INNER JOIN
+        (
+            SELECT title,poet,meterID
+            FROM    test.poetry
+            where meterID like "%رمل مثمن محذوف%"
+            GROUP BY poet
+        ) b ON a.title = b.title and a.meterID = b.meterID limit 0,4
