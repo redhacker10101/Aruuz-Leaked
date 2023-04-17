@@ -1,0 +1,490 @@
+﻿    @font-face {
+        font-family: nafees-naskh-regular;
+        src: url('../fonts/nafees-web-naskh-regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+/* @font-face {
+	font-family: amarnastaleeq-webfont;
+	src: url('../fonts/amarnastaleeq-webfont.ttf') format('truetype'), url('../fonts/amarnastaleeq-webfont.woff');
+}*/
+
+@font-face {
+    font-family: MehrNastaleeq;
+    src: url('../fonts/Mehr_Nastaliq_Web.ttf') format('truetype');
+    unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+    
+.urdu-naskh {
+    direction: rtl;
+    font-size: larger;
+    font-family: 'nafees-naskh-regular';
+}
+.urdu-naskh-medium {
+    direction: rtl;
+    font-size: medium;
+    font-family: 'nafees-naskh-regular';
+}
+
+.urdu-naskh-small {
+    direction: rtl;
+    font-size: small;
+    font-family: 'nafees-naskh-regular';
+}
+
+.urdu-naskh-tiny {
+    direction: rtl;
+    font-size: x-small;
+    font-family: 'nafees-naskh-regular';
+}
+
+.english-font-normal {
+    direction: ltr;
+    font-size: medium;
+    font-family: 'Times New Roman';
+}
+
+.english-font-small {
+    direction: ltr;
+    font-size: small;
+    font-family: 'Times New Roman';
+}
+
+.english-font-large {
+    direction: ltr;
+    font-size: large;
+    font-family: 'Times New Roman';
+}
+
+.urdu {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+    direction: rtl;
+    font-size: larger;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+
+.urdu-sp {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+    direction: rtl;
+    font-size: x-large;
+    font-family:'MehrNastaleeq','amarnastaleeq-webfont', 'Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+
+.urdu-medium {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+     direction: rtl;
+    font-size: large;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+
+.urdu-huge {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+     font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+     direction: rtl;
+    font-size: xx-large;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+
+.urdu-large {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+    direction: rtl;
+    font-size: x-large;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+
+.urdu-small {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+    direction: rtl;
+    font-size: medium;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+.urdu-tiny {
+    -webkit-font-feature-settings: "ccmp" 0;
+    -moz-font-feature-settings: "ccmp" 0;
+    font-feature-settings: "ccmp" 0; /* Firefox 4.0 to 14.0 */
+    direction: rtl;
+    font-size: x-small;
+    font-family: 'MehrNastaleeq','amarnastaleeq-webfont','Jameel Noori Nastaleeq','nafees-naskh-regular', 'Alvi Nastaleeq', 'Alvi Lahori Nastaleeq','AlQalam Taj Nastaleeq', 'Nafees Nastaleeq','Urdu Typesetting', 'Urdu Naskh Asiatype', Tahoma, sans-serif;
+}
+.sidebar-nav-fixed {
+    position: fixed;
+    top: 60px;
+    width: 21.97%;
+}
+
+@media (max-width: 767px) {
+    .sidebar-nav-fixed {
+        width: auto;
+    }
+}
+
+@media (max-width: 979px) {
+    .sidebar-nav-fixed {
+        position: static;
+        width: auto;
+    }
+}
+
+p.main {
+    text-align: center;
+}
+
+table.right-align {
+    text-align: right;
+}
+
+table.center-align {
+    text-align: center;
+}
+
+td.right-align {
+    text-align: right;
+}
+
+td.center-align {
+    text-align: center;
+}
+/* Side notes for calling out things
+-------------------------------------------------- */
+
+/* Base styles (regardless of theme) */
+.bs-callout {
+margin: 20px 0;
+padding: 15px 30px 15px 15px;
+border-left: 5px solid #eee;
+}
+
+.bs-callout h1,
+.bs-callout h2,
+.bs-callout h3,
+.bs-callout h4,
+.bs-callout h5,
+.bs-callout h6 {
+margin-top: 0;
+}
+
+.bs-callout-danger h1,
+.bs-callout-danger h2,
+.bs-callout-danger h3,
+.bs-callout-danger h4,
+.bs-callout-danger h5,
+.bs-callout-danger h6 {
+color: #B94A48;
+}
+
+.bs-callout-warning h1,
+.bs-callout-warning h2,
+.bs-callout-warning h3,
+.bs-callout-warning h4,
+.bs-callout-warning h5,
+.bs-callout-warning h6 {
+color: #C09853;
+}
+
+.bs-callout-info h1,
+.bs-callout-info h2,
+.bs-callout-info h3,
+.bs-callout-info h4,
+.bs-callout-info h5,
+.bs-callout-info h6 {
+color: #3A87AD;
+}
+
+.bs-callout-success h1,
+.bs-callout-success h2,
+.bs-callout-success h3,
+.bs-callout-success h4,
+.bs-callout-success h5,
+.bs-callout-success h6 {
+color: #3C763D;
+}
+
+.bs-callout p:last-child {
+margin-bottom: 0;
+}
+
+.bs-callout code,
+.bs-callout .highlight {
+background-color: #fff;
+}
+
+/* Themes for different contexts */
+.bs-callout-danger {
+background-color: #fcf2f2;
+border-color: #dFb5b4;
+}
+.bs-callout-warning {
+background-color: #fefbed;
+border-color: #f1e7bc;
+}
+.bs-callout-info {
+background-color: #f0f7fd;
+border-color: #d0e3f0;
+}
+.bs-callout-primary {
+background-color: #fcf2f2;
+border-color: #7070b1;
+}
+.bs-callout-success {
+background-color: #f1f1f1;
+border-color: #d6e9c6;
+}
+
+.bs-callout-urdu {
+margin: 20px;
+padding: 15px 30px 15px 15px;
+border-right: 5px solid #eee;
+}
+.bs-callout-urdu h1,
+.bs-callout-urdu h2,
+.bs-callout-urdu h3,
+.bs-callout-urdu h4,
+.bs-callout-urdu h5,
+.bs-callout-urdu h6 {
+margin-top: 0;
+}
+
+.bs-callout-urdu-danger h1,
+.bs-callout-urdu-danger h2,
+.bs-callout-urdu-danger h3,
+.bs-callout-urdu-danger h4,
+.bs-callout-urdu-danger h5,
+.bs-callout-urdu-danger h6 {
+color: #B94A48;
+}
+
+.bs-callout-urdu-warning h1,
+.bs-callout-urdu-warning h2,
+.bs-callout-urdu-warning h3,
+.bs-callout-urdu-warning h4,
+.bs-callout-urdu-warning h5,
+.bs-callout-urdu-warning h6 {
+color: #C09853;
+}
+
+.bs-callout-urdu-info h1,
+.bs-callout-urdu-info h2,
+.bs-callout-urdu-info h3,
+.bs-callout-urdu-info h4,
+.bs-callout-urdu-info h5,
+.bs-callout-urdu-info h6 {
+color: #3A87AD;
+}
+
+.bs-callout-urdu-success h1,
+.bs-callout-urdu-success h2,
+.bs-callout-urdu-success h3,
+.bs-callout-urdu-success h4,
+.bs-callout-urdu-success h5,
+.bs-callout-urdu-success h6 {
+color: #3C763D;
+}
+
+.bs-callout-urdu p:last-child {
+margin-bottom: 0;
+}
+
+.bs-callout-urdu code,
+.bs-callout-urdu .highlight {
+background-color: #fff;
+}
+
+/* Themes for different contexts */
+.bs-callout-urdu-danger {
+background-color: #fcf2f2;
+border-color: #dFb5b4;
+}
+.bs-callout-urdu-warning {
+background-color: #fefbed;
+border-color: #f1e7bc;
+}
+.bs-callout-urdu-info {
+background-color: #f0f7fd;
+border-color: #d0e3f0;
+}
+.bs-callout-urdu-primary {
+background-color: #fcf2f2;
+border-color: #7070b1;
+}
+.bs-callout-urdu-success {
+background-color: #f1f1f1;
+border-color: #d6e9c6;
+}
+.fa.fa-heart.outline {
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: gray;
+}
+
+.fa.fa-heart.red {
+    color: red;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: gray;
+}
+
+.fa.fa-comment {
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: gray;
+}
+
+.fa.fa-share {
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: gray;
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}
+a.avatar{
+    color: black;
+}
+body.modal-open {
+    overflow: visible;
+}
+
+body {
+    padding-top: 100px;
+}
+
+.h6, h6 {
+    font-size: .75rem !important;
+    font-weight: 500;
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    line-height: 1.5em;
+}
+
+.name h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a .material-icons {
+    vertical-align: middle;
+}
+
+.profile-page .page-header {
+    height: 380px;
+    background-position: center;
+}
+
+.page-header {
+    height: 100vh;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: flex;
+    align-items: center;
+}
+
+.header-filter:after, .header-filter:before {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    content: "";
+}
+
+.header-filter::before {
+    background: rgba(0,0,0,.0)
+}
+
+.main-raised {
+    margin: -60px 30px 0;
+    border-radius: 6px;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+}
+
+.main-raised2 {
+    border-radius: 6px;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+}
+
+.main {
+    background: #CCC;
+    position: relative;
+    z-index: 3;
+}
+
+.main2 {
+    background: #FFF;
+    position: relative;
+    z-index: 3;
+}
+
+.profile-page .profile {
+    text-align: center;
+}
+
+    .profile-page .profile img {
+        max-width: 160px;
+        width: 100%;
+        margin: 0 auto;
+        -webkit-transform: translate3d(0,-50%,0);
+        -moz-transform: translate3d(0,-50%,0);
+        -o-transform: translate3d(0,-50%,0);
+        -ms-transform: translate3d(0,-50%,0);
+        transform: translate3d(0,-50%,0);
+    }
+
+.img-raised {
+    box-shadow: 0 5px 15px -8px rgba(0,0,0,.24), 0 8px 10px -5px rgba(0,0,0,.2);
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+.img-fluid, .img-thumbnail {
+    max-width: 100%;
+    height: auto;
+}
+
+.title {
+    margin-top: 30px;
+    margin-bottom: 25px;
+    min-height: 32px;
+    color: #3C4858;
+    font-weight: 700;
+    font-family: "Roboto Slab","Times New Roman",serif;
+}
+
+.profile-page .description {
+    margin: 1.071rem auto 0;
+    max-width: 600px;
+    color: #999;
+    font-weight: 300;
+}
+
+.profile-page .profile-tabs {
+    margin-top: 4.284rem;
+}
+
+
+
+.profile-page .profile .name {
+    margin-top: -80px;
+}
+
+img.rounded {
+    border-radius: 6px !important;
+}
