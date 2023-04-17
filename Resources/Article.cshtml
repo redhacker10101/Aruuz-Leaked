@@ -1,0 +1,209 @@
+﻿@model Aruuz.Models.Resources
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{ var user = await userManager.GetUserAsync(User);
+    var userId = user?.Id;
+
+    ViewBag.Title = Model.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        updateviews("article","@Model.id");
+    });
+</script>
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<style scoped>
+    .white {
+        color: #76b1b6;
+    }
+</style>
+<style scoped>
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+</style>
+
+@section meta{
+    <meta name="description" content="Free Articles about Urdu Poetry" />
+    <meta name="description" content="اردو شاعری اور علم عروض پر مضامین" />
+    <meta name="keywords" content="@Model.keywords" />
+    <meta name="author" content="@Model.author" />
+    <meta name="image" content="/images/aruuz3.jpg" />
+    <meta property="fb:admins" content="sayedzeeshan.asghar" />
+    <meta property="fb:app_id" content="202167263310439" />
+    <meta property="og:type" content="aruuztaqti:poetry" />
+    <meta property="og:title" content="@Model.title" />
+    <meta property="og:image" content="/images/aruuz3.jpg" />
+    <meta property="og:description" content="@Model.title" />
+}
+
+<style scoped>
+    .fa.fa-heart {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+    }
+
+    .fa.fa-comment {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+    }
+    /*.fa.fa-envelope-open-o {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+        }*/
+    .fa.fa-share {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+        -moz-transform: scale(-1, 1);
+        -webkit-transform: scale(-1, 1);
+        -o-transform: scale(-1, 1);
+        -ms-transform: scale(-1, 1);
+        transform: scale(-1, 1);
+    }
+
+    .highlightme {
+        background-color: #FFFF00;
+    }
+
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+
+    .poetrySingleColumnJustifyCSS3 td {
+        text-align: justify;
+        height: 1em;
+        line-height: 1;
+    }
+
+        .poetrySingleColumnJustifyCSS3 td::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            height: 2px;
+        }
+</style>
+
+
+<div class="container" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col col-md-8 col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb urdu-small hidden-xs">
+                    <li class="breadcrumb-item"><a href="/home">عروض</a></li>
+                    <li class="breadcrumb-item"><a href="/resources">مضامین</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.category</li>
+
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+        <div class="row justify-content-center">
+            <div class="col col-md-12 col-12">
+                <div class="card border-bottom-0 py-1">
+                    <div class="card-header ">
+                        <div class="row" dir="rtl">
+                            <div class="col col-8">
+                                <div class="urdu-large text-right text-info">
+                                    @Model.title
+                                </div>
+                                <br>
+                                <div class="urdu text-right">از <a class="white" href="@Model.website">@Model.author</a></div>
+                            </div>
+                            <div class="col col-4 text-left">
+                                <div class="text-left float-left">
+                                    <img src="~/icons/articles.png" width="50" height="50" class="pull-left" style="transform:scale(0.65)">
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <div class="text-left float-left">
+                                    <div class="float-left urdu-small" style="text-align:left; color:gray">
+                                        @Model.date.ToString("d MMMM، yyy", CultureInfo.CreateSpecificCulture("ur-PK"))
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body urdu text-right">
+                        @Html.Raw(@Model.text)
+                        <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+                        @{
+                            var ss = "like_article_" + Model.id;
+                            var vv = "like_article_count_" + Model.id;
+
+                        }
+                            <div class="row pb-xl-2 pb-lg-2 pb-md-2 pb-sm-2 pb-2" dir="rtl">
+                                <div class="col col-4 text-center text-secondary">
+                                    <span class="fa fa-heart outline pl-3" id="@ss" style="position: relative; cursor:pointer;" onclick='likeToggle("article",null,"@Model.id",null,"@userId")'>  </span>
+                                    @if (Model.likes > 0)
+                                    {
+                                        <a class="english-font-small text-primary" style="position: relative; cursor:pointer;" id="@vv" onclick='listLikes("article","@Model.id")'> @Model.likes</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="english-font-small d-none" id="@vv" style="position: relative; cursor:pointer;" onclick='listLikes("article","@Model.id")'> @Model.likes</span>
+                                    }
+                                </div>
+                                <div class="col col-4 text-center text-secondary">
+                                    <span class="fa  fa-envelope-open-o">  </span>
+                                    @if (Model.views > 0)
+                                    {
+                                        <span class="english-font-small">@Model.views</span>
+                                    }
+                                </div>
+                                <div class="col col-4 text-center text-secondary">
+                                    <span class="fa fa-share">  </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="pt-2">
+    </div>
+    <div id="comments">
+        @{
+        CommentsHelper helper = new CommentsHelper(Model.id, "resources/article", false);
+        await Html.RenderPartialAsync("~/Views/Comments/Index.cshtml", helper);
+        }
+    </div>
+    </div>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-46123045-1', 'aruuz.com');
+        ga('send', 'pageview');
+
+    </script>

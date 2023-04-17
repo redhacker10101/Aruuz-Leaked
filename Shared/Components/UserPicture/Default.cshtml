@@ -1,0 +1,36 @@
+﻿@model Aruuz.Areas.Identity.Data.AruuzUser
+@using Aruuz.Models
+<style>
+    .avatar {
+        border-radius: 50%;
+    }
+
+    br {
+        line-height: 50%;
+    }
+
+    img.resizesmall {
+        width: 48px; /* you can use % */
+        height: 48px;
+    }
+</style>
+@{
+    string s, photoUrl, a;
+    if (Model == null)
+    {
+        a = s = "نامعلوم";
+        photoUrl = "/displaypic/default.jpg";
+    }
+    else
+    {
+        s = "@" + Model.UserName;
+        a = Model.UserName;
+        photoUrl = Model.PhotoURL;
+    }
+}
+<div class="col col-md-6  col-8 text-right pr-sm-1 pr-md-0 pr-lg-4 pr-xl-2 pr-1 pl-1 urdu-medium text-left" dir="ltr">
+    <a href="/?user=@a" style="color:gray">
+        <img src="@photoUrl" alt="avatar" class="avatar float-left resizesmall">
+    </a>
+</div>
+

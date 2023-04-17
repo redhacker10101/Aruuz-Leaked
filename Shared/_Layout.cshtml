@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#453f3c">
+
+    @RenderSection("meta", required: false)
+
+    <title>@Html.Raw(@ViewData["Title"]) - عروض</title>
+    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-custom3.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/create9.js"></script>
+    <script src="~/js/keyboard.js"></script>
+    <script src="~/js/yauk.es5.min.js"></script>
+    <link href="~/css/custom.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-dark bg-primary border-bottom box-shadow fixed-top mb-3" dir="rtl">
+            <div class="container">
+                <a class="navbar-brand navbar-right ml-md-auto" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo33.svg" style="transform:scale(1.0)" />
+                </a>
+                <button class="navbar-toggler navbar-right" type="button" data-toggle="collapse" data-target="#mainbar" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse mr-auto" id="mainbar" dir="rtl">
+                    <ul class="navbar-nav flex-grow-1 float-right">
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="taqti" asp-action="index">تقطیع</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="create" asp-action="index">اصلاح</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="usercp" asp-action="index">اشاعت</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="selection" asp-action="all">منتخب</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="resources" asp-action="Index">مضامین</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-extra urdu" asp-area="" asp-controller="blog" asp-action="Index">بلاگ</a>
+                        </li>
+                    </ul>
+                    <nav class="navbar navbar-light float-left d-lg-inline d-none pl-0">
+                        <form class="form-inline " role="search" id="mySearchForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control mr-sm-2 search1 urdu-small yauk text-extra" placeholder="اشعار میں تلاش" style="background-color:#bebe9c">
+                                <button class="btn btn-outline-light my-2 my-sm-0">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                           
+                        </form>
+                    </nav>
+
+                    <partial name="_LoginPartial" />
+                    <nav class="navbar navbar-light float-left d-lg-none d-md-inline pl-0">
+                        <form class="form-inline " role="search" id="mySearchForm2">
+                            <div class="form-group">
+                                <input type="text" class="form-control mr-sm-2 search2 text-extra urdu-small yauk" placeholder="اشعار میں تلاش" style="background-color: #bebe9c">
+                                <button class="btn btn-outline-light my-2 my-sm-0">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                           
+                        </form>
+                    </nav>
+                </div>
+                <div class="d-flex flex-row order-2 order-lg-3">
+
+                    <partial name="_PartialNotifications" />
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" dir="rtl">
+        <main role="main" class="pb-3">
+            <form id="__AjaxAntiForgeryForm" action="#" method="post" hidden="hidden"> @Html.AntiForgeryToken()</form>
+            @RenderBody()
+        </main>
+    </div>
+    @{
+        string twitter = "@syed_asghar";
+    }
+    <footer class="border-top footer text-muted text-right d-lg-none d-md-inline" dir="rtl">
+        <div class="container urdu-tiny">
+            &copy; 2021 -  عروض 2.1 
+            -
+            <a href="/home/contact">رابطہ</a>
+            -
+            <a href="https://donorbox.org/aruuz">مالی تعاون</a>
+            -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">رازداری</a>
+            -
+            <a href="/resources/article/25cdFqvoA08Gu7DN2bLs">اے پی آئی</a>
+            -
+            <a target="_blank" href="https://github.com/sayedzeeshan/Aruuz">سورس کوڈ</a>
+            -
+            <a href="https://www.urduweb.org/mehfil/portal/">اردو ویب</a>
+            -
+            <a href="https://www.facebook.com/UrduAruuz/">فیسبک</a>
+            -
+            <a href="https://twitter.com/sayed_asghar">@twitter</a>
+        </div>
+    </footer>
+
+    <footer class="border-top footer text-muted text-right  d-lg-inline d-none" dir="rtl">
+        <div class="container urdu-small">
+            &copy; 2021 -  عروض 2.1.1 
+            -
+            <a href="/home/contact">رابطہ</a>
+            -
+            <a href="https://donorbox.org/aruuz">مالی تعاون</a>
+            -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">رازداری</a>
+            -
+            <a href="/resources/article/25cdFqvoA08Gu7DN2bLs">اے پی آئی</a>
+            -
+            <a target="_blank" href="https://github.com/sayedzeeshan/Aruuz">سورس کوڈ</a>
+            -
+            <a href="https://www.urduweb.org/mehfil/portal/">اردو ویب</a>
+            -
+            <a href="https://www.facebook.com/UrduAruuz/">فیسبک</a>
+            -
+            <a href="https://twitter.com/sayed_asghar">@twitter</a>
+        </div>
+    </footer>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('.search').setUrduInput();
+        $('.search').css("font-size", "small");
+        $('.search').css("line-height", "70%");
+    });
+</script>

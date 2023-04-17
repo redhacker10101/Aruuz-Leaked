@@ -1,0 +1,47 @@
+﻿@model Aruuz.Areas.Identity.Data.AruuzUser
+@using Aruuz.Models
+<style>
+    .avatar {
+        border-radius: 50%;
+    }
+    br {
+        line-height: 50%;
+    }
+    img.resize {
+        width: 64px; /* you can use % */
+        height: 64px;
+    }
+</style>
+@{
+    string uname, photoUrl, atname, name;
+    if (Model == null)
+    {
+        atname = name = uname = "نامعلوم";
+        photoUrl = "/displaypic/default.jpg";
+    }
+    else
+    {
+        atname = "@" + Model.UserName;
+        uname = Model.UserName;
+        name = Model.Name;
+        photoUrl = Model.PhotoURL;
+    }
+}
+<div class="col col-md-6  col-8 text-right pr-sm-1 pr-md-0 pr-lg-4 pr-xl-2 pr-1 pl-1 urdu-medium text-left" dir="ltr">
+    <a href="/?user=@uname" style="color:gray">
+        <img src="@photoUrl" alt="avatar" class="avatar float-left resize">
+    </a>
+    @if(CommentsHelper.IsEnglish(name))
+    {
+    <a href="/?user=@uname" class="avatar float-left english-font-small pt-1 pl-1"> @name</a>
+    }
+    else
+    {
+    <a href="/?user=@uname" class="avatar float-left urdu-medium pl-1"> @name</a>
+
+    }
+    <br>
+    <a class="english-font-small float-left pb-2 pl-1" href="/?user=@uname" style="color:darkgray"> @atname</a>
+
+</div>
+

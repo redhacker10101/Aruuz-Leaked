@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Aruuz.Models.Words>
+
+<div class="container urdu">
+    <div class="row text-right">
+        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="table-responsive text-right">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Word
+                        </th>
+                        <th>
+                            Taqti 1
+                        </th>
+                        <th>
+                            Taqti 2
+                        </th>
+                        <th>
+                            Muarrab
+                        </th>
+                        <th>
+                            Breakup
+                        </th>
+                        <th>
+                            Language
+                        </th>
+                        <th>
+                            OriginalId
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                        <th>
+                            Delete
+                        </th>
+                    </tr>
+
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @m.id.First()
+                            </td>
+                            <td>
+                                @m.word
+                            </td>
+                            <td>
+                                @m.code.First().ToString()
+                            </td>
+                            @if (m.code.Count > 1)
+                            {
+                                <td>
+                                    @m.code[1].ToString()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    None
+                                </td>
+                            }
+                            @if (m.muarrab.Count > 0)
+                            {
+                                <td>
+                                    @m.muarrab.First().ToString()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    None
+                                </td>
+                            }
+                            @if (m.taqti.Count > 0)
+                            {
+                                <td>
+                                    @m.taqti.First()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    None
+                                </td>
+                            }
+                            @if (m.language.Count > 0)
+                            {
+                                <td>
+                                    @m.language.First()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    None
+                                </td>
+                            }
+                            <td>
+                                @m.originalId.First()
+                            </td>
+                            <td>
+                                <a href="/dataentry/edit?id=@m.id.First()">edit</a>
+                            </td>
+                            <td>
+                                <a href="/dataentry/delete?id=@m.id.First()">delete</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,33 @@
+﻿@model Aruuz.Models.HomeData
+@using Aruuz.Models
+
+@foreach (var m in Model.data)
+{
+    m.source = "Home";
+    if (m.active == 0)
+    {
+        await Html.RenderPartialAsync("_PartialPoetry", m.up);
+        <div class="pt-2">
+        </div>
+    }
+    else if (m.active == 1)
+    {
+        await Html.RenderPartialAsync("_PartialDiscussion", m.ud);
+        <div class=" pt-2">
+        </div>
+    }
+    else if (m.active == 2)
+    {
+        await Html.RenderPartialAsync("_PartialSelection", m.pc);
+        <div class="pt-2">
+        </div>
+    }
+}
+@if (Model.data.Count() == 0)
+{
+    <div id="end" class="urdu text-center">اختتام</div>
+}
+else
+{
+<div id="morestuff" class="@Model.Page"></div>
+}

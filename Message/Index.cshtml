@@ -1,0 +1,124 @@
+﻿@model Aruuz.Models.Messages
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{ var user = await userManager.GetUserAsync(User);
+    var userId = user?.Id;
+
+    ViewBag.Title = "بلاواسطہ پیغام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style scoped>
+    .fa.fa-heart {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+    }
+
+    .fa.fa-comment {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+    }
+    /*.fa.fa-envelope-open-o {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+        }*/
+    .fa.fa-share {
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: gray;
+        -moz-transform: scale(-1, 1);
+        -webkit-transform: scale(-1, 1);
+        -o-transform: scale(-1, 1);
+        -ms-transform: scale(-1, 1);
+        transform: scale(-1, 1);
+    }
+
+    .highlightme {
+        background-color: #FFFF00;
+    }
+
+    .white {
+        color: #00ff21;
+    }
+
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+
+    .poetrySingleColumnJustifyCSS3 td {
+        text-align: justify;
+        height: 1em;
+        line-height: 1;
+    }
+
+        .poetrySingleColumnJustifyCSS3 td::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            height: 2px;
+        }
+</style>
+<div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-12 align-self-center">
+            <div class="card   border-bottom-0" id="@Model.IdMessages">
+                <div class="card-header py-1">
+                    <div class="row" dir="rtl">
+                        <div class="col col-md-6 col-4">
+                            @if (Model.Date != null)
+                            {
+                                @await Component.InvokeAsync("UserPicture", Model.IdToUser)
+                                <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                    <i class="fa fa-clock-o"></i>
+                                    @Model.Date.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                                </a>
+                            }
+                        </div>
+                        @await Component.InvokeAsync("UserAvatar", Model.IdFromUser)
+                    </div>
+                </div>
+                <div class="card-body py-1">
+                    <div class="text-center pb-0 border-bottom border-light">
+                        <h6>
+                            <a href="/message?id=@Model.IdMessages" class="text-info text-left urdu" style="text-align:left; color:gray">  @Html.Raw(Model.Title) </a>
+                        </h6>
+                    </div>
+
+                    <div class="urdu text-right">
+                        @Html.Raw(Model.Text)
+                    </div>
+                </div>
+                <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+                @{
+                    CommentsPanel panel = new CommentsPanel();
+                    panel.Id = Model.IdMessages;
+                    panel.Source = "message";
+                    panel.LikedByMe = Model.LikedByMe;
+                    panel.Views = 0;
+                    panel.Comments = Model.Comments;
+                    panel.Likes = Model.Likes;
+                    panel.UserId = userId;
+                    await Html.RenderPartialAsync("~/Views/Shared/_PartialCommentsPanel.cshtml", panel);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+</div>
+<div id="comments">
+    @{
+        CommentsHelper helper = new CommentsHelper(Model.IdMessages, "message", false);
+        await Html.RenderPartialAsync("~/Views/Comments/Index.cshtml", helper);
+    }
+</div>

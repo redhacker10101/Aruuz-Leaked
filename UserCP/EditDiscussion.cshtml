@@ -1,0 +1,77 @@
+﻿@model Aruuz.Models.UDInput
+@using Aruuz.Models;
+@{
+
+    ViewBag.Title = "گفتگو تدوین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/summernote/summernote-bs4.css" rel="stylesheet" />
+<script src="~/summernote/summernote-bs4.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#Text').summernote();
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.IdUserDiscussion);
+    <fieldset>
+        <div class="container urdu-medium">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb urdu-small hidden-xs">
+                    <li class="breadcrumb-item"><a href="/home">عروض</a></li>
+                    <li class="breadcrumb-item"><a href="/usercp">اشاعت</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">گفتگو</li>
+                </ol>
+            </nav>
+            <div asp-validation-summary="All" class="text-danger english-font-normal"></div>
+
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-small">
+                    <br>
+                    @{ List<string> lst = TagsTable.ReturnTagNamesSpecial();
+
+                        var RoleSelectList = new SelectList(lst, lst[0]);
+                    }
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">زمرہ/ٹیگ</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <select asp-for="Tag" asp-items="RoleSelectList" class="form-control urdu-naskh-small">
+                    </select>
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">عنوان</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right">
+                    @Html.TextBoxFor(Model => Model.Title, new { @class = "form-control input-lg urdu-small text-right", id = "titlediv", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">گفتگو کا متن</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right">
+                    @* @Html.TextAreaFor(Model => Model.Text, 8, 8, new { @class = "form-control input-block-level urdu-small", @placeholder = " بحر اور تقطیع دیکھنے کے لئے اشعار یہاں داخل کریں", @tabindex = "1" })*@
+                    <textarea asp-for="Text"></textarea>
+                    <input type="submit" class="btn btn-primary btn-lg" value="تدوین کریں" />
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+}

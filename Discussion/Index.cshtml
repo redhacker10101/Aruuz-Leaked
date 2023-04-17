@@ -1,0 +1,172 @@
+﻿@model Aruuz.Models.UserDiscussion
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{ var user1 = await userManager.GetUserAsync(User);
+    var userId = user1?.Id;
+
+    var user = await userManager.FindByIdAsync(Model.AspNetUserId);
+
+
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    @section meta{
+        <meta name="description" content="Urdu poetry اردو شاعری @Model.Text" />
+        <meta name="keywords" content="@user.UserName @user.Name" />
+        <meta name="author" content="@user.Name" />
+        <meta name="image" content="@user.PhotoURL" />
+        <meta property="fb:admins" content="sayedzeeshan.asghar" />
+        <meta property="fb:app_id" content="202167263310439" />
+        <meta property="og:type" content="aruuztaqti:poetry" />
+        <meta property="og:title" content="@Model.Title" />
+        <meta property="og:image" content="@user.PhotoURL" />
+        <meta property="og:description" content="@Model.Title" />
+    }
+    <script type="text/javascript">
+    $(document).ready(function () {
+        updateviews("discussion","@Model.IdUserDiscussion");
+    });
+    </script>
+    <style scoped>
+        .fa.fa-heart {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+        }
+
+        .fa.fa-comment {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+        }
+        /*.fa.fa-envelope-open-o {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+        }*/
+        .fa.fa-share {
+            color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gray;
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -o-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+        }
+
+        .highlightme {
+            background-color: #FFFF00;
+        }
+
+        .white {
+            color: #00ff21;
+        }
+
+        .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+            width: 100% !important;
+        }
+
+        .poetrySingleColumnJustifyCSS3 td {
+            text-align: justify;
+            height: 1em;
+            line-height: 1;
+        }
+
+            .poetrySingleColumnJustifyCSS3 td::after {
+                content: "";
+                display: inline-block;
+                width: 100%;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                height: 2px;
+            }
+    </style>
+    <div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+        <div class="row justify-content-center">
+            <div class="col col-md-12 col-12 align-self-center">
+                <div class="card   border-bottom-0" id="@Model.IdUserDiscussion">
+                    <div class="card-header py-1">
+                        <div class="row" dir="rtl">
+                            <div class="col col-md-6 col-4">
+                                @if (Model.DatePublished != null)
+                            {
+                                <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                    <i class="fa fa-clock-o"></i>
+                                    @Model.DatePublished.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                                </a>
+                            }
+                                <br>
+                                @foreach (var m in Model.tagsList)
+                            {
+                                string a = m;
+                                string ss = a;
+                                if (m.Equals("کوئی نہیں"))
+                                {
+
+                                }
+                                else
+                                {
+                                <a class="urdu-naskh-medium float-right px-1" href="/tags?name=@a">
+                                    <span class="badge badge-info">@ss</span>
+                                </a>
+                                }
+                            }
+                            </div>
+                            @await Component.InvokeAsync("UserAvatar", Model.AspNetUserId)
+
+                        </div>
+                    </div>
+                    <div class="card-body py-1">
+                        <div class="text-center pb-0 py-3 border-bottom border-light">
+                            <h6>
+                                <a href="/discussion?id=@Model.IdUserDiscussion" class="text-info text-left urdu-medium" style="text-align:left; color:gray">  @Html.Raw(Model.Title) </a>
+                            </h6>
+                        </div>
+
+                        <div class="urdu text-right">
+                            @Html.Raw(Model.Text)
+                        </div>
+                    </div>
+                    <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+
+                    @{
+                    CommentsPanel panel = new CommentsPanel();
+                    panel.Id = Model.IdUserDiscussion;
+                    panel.Source = "discussion";
+                    panel.LikedByMe = Model.LikedByMe;
+                    panel.Views = Model.Views;
+                    panel.Comments = Model.Comments;
+                    panel.Likes = Model.Likes;
+                    panel.UserId = userId;
+                    await Html.RenderPartialAsync("~/Views/Shared/_PartialCommentsPanel.cshtml", panel);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pt-2">
+    </div>
+    <div id="comments">
+        @{
+        CommentsHelper helper = new CommentsHelper(Model.IdUserDiscussion, "discussion", false);
+        await Html.RenderPartialAsync("~/Views/Comments/Index.cshtml", helper);
+        }
+    </div>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-46123045-1', 'aruuz.com');
+        ga('send', 'pageview');
+
+    </script>

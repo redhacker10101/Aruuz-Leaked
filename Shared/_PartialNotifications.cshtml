@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data
+
+@inject SignInManager<AruuzUser> SignInManager
+@inject UserManager<AruuzUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var Name = user?.Name;
+    if (SignInManager.IsSignedIn(User))
+    {
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link text-light english-font-normal" id="messages" asp-area="Identity" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                <i class="fa fa-envelope" style="color:#bebe9c">
+                </i>
+                <span class="badge badge-danger urdu-tiny pl-1 pt-0" style="vertical-align: top"></span>
+            </a>
+            <div class="dropdown-menu" id="messageDropDown">
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link text-light english-font-normal" id="notification" asp-area="Identity" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                <i class="fa fa-bell" style="color:#bebe9c">
+                </i>
+                <span class="badge badge-danger urdu-tiny pl-1 pt-0" style="vertical-align: top"></span>
+            </a>
+            <div class="dropdown-menu" id="notificatioDropDown">
+            </div>
+        </li>
+    </ul>
+        }
+    }
+

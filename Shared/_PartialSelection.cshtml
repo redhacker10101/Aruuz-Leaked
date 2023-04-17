@@ -1,0 +1,184 @@
+﻿@model Aruuz.Models.PoetryClass
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{ var user = await userManager.GetUserAsync(User);
+    var userId = user?.Id;
+}
+<style scoped>
+    .highlightme {
+        background-color: #FFFF00;
+    }
+
+    .white {
+        color: #00ff21;
+    }
+
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+
+    .poetrySingleColumnJustifyCSS3 td {
+        text-align: justify;
+        height: 1em;
+        line-height: 1;
+    }
+
+        .poetrySingleColumnJustifyCSS3 td::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            height: 2px;
+        }
+</style>
+    <div class="row justify-content-center">
+        <div class="col col-lg-12 col-md-12 col-sm-12 col-12 align-self-center">
+            <div class="card border-bottom-0" id="@Model.idpoetry">
+                <div class="card-header py-1">
+                    <div class="row" dir="rtl">
+                        <div class="col col-md-6 col-4">
+                            @if (Model.datepublished != null)
+                        {
+                            <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                <i class="fa fa-clock-o"></i>
+                                @Model.datepublished.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                            </a>
+                        }
+                            <br>
+                            <a class="urdu-naskh-medium float-right" href="/selection/type?name=@Model.type">
+                                @{var ss = Model.type; }
+                                <span class="badge badge-info">@Html.Raw(ss)</span>
+                            </a>
+
+                        </div>
+                        @await Component.InvokeAsync("AuthorAvatar", Model.poetid)
+
+                    </div>
+                </div>
+                <div class="card-body py-1" id="poetrypanel1" style="transform: rotate(0);">
+
+                    @{
+                    char[] delimiters = new[] { '\n' };  // List of delimiters
+                    var subStrings = Model.text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    int id = 0;
+                    }
+                    <div id="poetrytable1" class="urdu text-center py-3">
+
+                        @if (Model.type.Equals("آزاد نظم"))
+                        {
+                            <table class="text-right" align="right">
+                                <tbody>
+                                    @foreach (var v in subStrings)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(v))
+                                        {
+                                            if (id < 6)
+                                            {
+                                                <tr><td> @Html.Raw(v) </td></tr>
+                                            }
+                                            else
+                                            {
+                                                string s = "....";
+                                                <tr>
+                                                    <td class="py-0">
+                                                        <a href="/selection?id=@Model.idpoetry" class="stretched-link">
+                                                            <i class="fa fa-angle-double-left text-info"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            }
+                                            id = id + 1;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <table class="poetrySingleColumnJustifyCSS3 text-center" align="center">
+                                <tbody>
+                                    @foreach (var v in subStrings)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(v))
+                                        {
+                                            if (id < 6)
+                                            {
+                                                <tr><td> @Html.Raw(v) </td></tr>
+                                            }
+                                            else
+                                            {
+                                                string s = "....";
+                                                <tr>
+                                                    <td class="py-0">
+                                                        <a href="/selection?id=@Model.idpoetry" class="stretched-link">
+                                                            <i class="fa fa-angle-double-left text-info"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                break;
+                                            }
+                                            id = id + 1;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        @if (id <= 6)
+                        {
+                            <a href="/selection?id=@Model.idpoetry" class="stretched-link">
+                            </a>
+                        }
+                    </div>
+
+                    <div class="text-center row justify-content-center py-0 border-bottom border-light border-top">
+                        <h6> <a href="/selection?id=@Model.idpoetry" class="urdu text-info text-center">  @Html.Raw(Model.title)</a></h6>
+                    </div>
+
+                    @{
+                    delimiters = new[] { ',', '،' };  // List of delimiters
+                    subStrings = Model.meters.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (subStrings.Count() > 0)
+                    {
+                        var meter = subStrings.First();
+                        List<int> lst = Meters.meterIndex(meter.Trim());
+                        if(lst.Count > 0 && lst.First() >= 0)
+                        {
+                        var afail = Meters.Afail(Meters.meters[lst.First()]);
+
+                        <div class="text-center row justify-content-center py-0 border-bottom border-light">
+                            <p class="urdu-small text-secondary text-center">  @Html.Raw(afail)</p>
+                        </div>
+                        }
+                        else
+                        {
+                        <div class="text-center row justify-content-center py-0 border-bottom border-light">
+                            <p class="urdu-small text-secondary text-center">  @Html.Raw(meter)</p>
+                        </div>
+                        }
+
+                    }
+                    }
+                </div>
+                <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+                @{
+                CommentsPanel panel = new CommentsPanel();
+                panel.Id = Model.idpoetry;
+                panel.Source = "selection";
+                panel.LikedByMe = Model.LikedByMe;
+                panel.Views = Model.views;
+                panel.Comments = Model.comments;
+                panel.Likes = Model.likes;
+                panel.UserId = userId;
+                await Html.RenderPartialAsync("~/Views/Shared/_PartialCommentsPanel.cshtml", panel);
+                }
+
+            </div>
+        </div>
+    </div>

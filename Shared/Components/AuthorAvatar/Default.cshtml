@@ -1,0 +1,25 @@
+﻿@model Aruuz.Models.Author
+
+<style>
+    .avatar {
+        border-radius: 50%;
+    }
+
+    br {
+        line-height: 50%;
+    }
+</style>
+@{
+    string s = "@" + Model.name;
+}
+
+<div class="col col-md-6  col-8 text-right pr-sm-1 pr-md-0 pr-lg-4 pr-xl-2 pr-1 pl-1 urdu-medium text-left" dir="ltr">
+    <a href="/author?name=@Model.name" style="color:gray">
+        <img src="@Model.photourl" alt="avatar" class="avatar float-left">
+    </a>
+
+        <a href="/author?name=@Model.name" class="avatar float-left urdu-medium pl-1"> @Html.Raw(Model.name)</a>
+
+    <br>
+
+</div>

@@ -1,0 +1,90 @@
+﻿@model Aruuz.Models.UPInput
+@using Aruuz.Models;
+@{
+    ViewBag.Title = "شاعری تدوین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.IdPoetry);
+
+
+    <fieldset>
+        <div class="container urdu-medium">
+            <div class="row justify-content-center">
+                <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb urdu-small hidden-xs">
+                            <li class="breadcrumb-item"><a href="/home">عروض</a></li>
+                            <li class="breadcrumb-item"><a href="/usercp">اشاعت</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">شاعری</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div asp-validation-summary="All" class="text-danger english-font-normal"></div>
+
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-small">
+                    <br>
+                    @{ List<string> lst = PoetryType.ReturnTypesNames();
+
+                        var RoleSelectList = new SelectList(lst, lst[0]);
+                    }
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">زمرہ/ٹیگ</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <select asp-for="Type" asp-items="RoleSelectList" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">عنوان</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right">
+                    @Html.TextBoxFor(Model => Model.Title, new { @class = "form-control input-lg urdu-small text-right  disabled", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row bg-light text-dark">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right urdu-naskh-small">
+                    <a class="text-right urdu-naskh-medium">کلام</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 float-right text-right">
+                    @Html.TextAreaFor(Model => Model.Text, 8, 8, new { @class = "form-control input-block-level urdu-small", @placeholder = " بیاض میں محفوظ کرنے کے لئے اشعار یہاں داخل کریں", @tabindex = "1" })
+                    <input type="submit" class="btn btn-primary btn-lg" value="تدوین کریں" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 float-right text-right">
+                    @if(Model.InputPublished)
+                    {
+                        <input type="checkbox" asp-for="InputPublished" disabled>
+                        <label class="urdu-medium">شائع کریں</label>
+                    }
+                    else
+                    {
+                        <input type="checkbox" asp-for="InputPublished">
+                        <label class="urdu-medium">شائع کریں</label>
+                    }
+                </div>
+            </div>
+    </fieldset>
+}
+

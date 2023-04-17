@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Aruuz.Models.LikesClass>
+
+@*<h1>It Works!</h1>*@
+<div class="modal-content text-right" dir="rtl">
+    <div class="modal-header">
+        <h4 class="modal-title urdu-medium text-info" id="myModalLabel">پسند کرنے والوں کی فہرست</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+        <table class="table text-right">
+            <tbody>
+            @foreach(var m in Model)
+            {
+                string s = m.name;
+                <tr>
+                    <td>
+                        <a href="/?user=@m.username" class="urdu-small">@s</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+            </div>
+    </div>
+    <div class="modal-footer ml-auto" dir="rtl">
+        <button type="button" class="btn btn-outline-primary btn-sm urdu-medium" data-dismiss="modal">بند کریں</button>
+    </div>
+</div>

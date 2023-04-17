@@ -1,0 +1,309 @@
+﻿@model Aruuz.Models.PoetryClass
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{
+    int ii = 0;
+    var user = await userManager.GetUserAsync(User);
+    var userId = user?.Id;
+    ViewBag.Title = Html.Raw(Model.title) + " - " + Html.Raw(Model.poet);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var textClean = Araab.removeAraab(Lines.removeSymbols(Model.text));
+    Author pt = new Author();
+    pt.FindById(Model.poetid);
+}
+@section meta{
+    <meta name="description" content="اردو کلام وزن کی معلومات سمیت @Html.Raw(Model.poet) <br>  @Html.Raw(textClean.Replace("\n","<br>"))" />
+    <meta name="keywords" content="@Html.Raw(Model.type) @Html.Raw(Model.poet)" />
+    <meta name="author" content="@Html.Raw(Model.poet)" />
+    <meta name="image" content="@pt.photourl" />
+    <meta property="fb:admins" content="sayedzeeshan.asghar" />
+    <meta property="fb:app_id" content="202167263310439" />
+    <meta property="og:type" content="aruuztaqti:poetry" />
+    <meta property="og:title" content="@Html.Raw(Model.title)" />
+    <meta property="og:image" content="@pt.photourl" />
+    <meta property="og:description" content="@Html.Raw(Model.title)" />
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        updateviews("selection","@Model.idpoetry");
+    });
+</script>
+<style scoped>
+    .highlightme {
+        background-color: #FFFF00;
+    }
+
+    .white {
+        color: #00ff21;
+    }
+
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+
+    .poetrySingleColumnJustifyCSS3 td {
+        text-align: justify;
+        height: 1em;
+        line-height: 1;
+    }
+
+        .poetrySingleColumnJustifyCSS3 td::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            height: 2px;
+        }
+</style>
+<div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-12 align-self-center">
+            <div class="card   border-bottom-0" id="@Model.idpoetry">
+                <div class="card-header">
+                    <div class="row" dir="rtl">
+                        <div class="col col-md-6 col-4">
+                            @if (Model.datepublished != null)
+                            {
+                            <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                <i class="fa fa-clock-o"></i>
+                                @Model.datepublished.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                            </a>
+                            }
+                            <br>@{var ss = Model.type; }
+                            <a class="urdu-naskh-medium float-right px-1" href="/selection/type?name=@Model.type">
+                                <span class="badge badge-info">@Html.Raw(ss)</span>
+                            </a>
+                        </div>
+                        @await Component.InvokeAsync("AuthorAvatar", Model.poetid)
+                    </div>
+                </div>
+                <div class="card-body py-1" id="poetrypanel1">
+                    @{
+                        char[] delimiters = new[] { '\n' };  // List of delimiters
+                        var subStrings = Model.text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    }
+                    <div id="poetrytable1" class="urdu text-center py-3">
+                        @if (Model.type.Equals("آزاد نظم"))
+                        {
+                            <table class="text-right" align="right">
+                                <tbody>
+                                    @foreach (var v in subStrings)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(v))
+                                        {
+
+                                            <tr><td> @Html.Raw(v) </td></tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else if (Model.type.Equals("غزل"))
+                        {
+                            <table class="poetrySingleColumnJustifyCSS3 text-center" align="center">
+                                <tbody>
+                                    @foreach (var v in subStrings)
+                                    {
+                                        if (ii % 2 == 0 && ii != 0)
+                                        {
+                                            if (!String.IsNullOrWhiteSpace(v))
+                                            {
+                                                <tr><td> </td></tr>
+                                                <tr><td> @Html.Raw(v) </td></tr>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (!String.IsNullOrWhiteSpace(v))
+                                            {
+                                                <tr><td> @Html.Raw(v) </td></tr>
+                                            }
+                                        }
+                                        ii++;
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <table class="poetrySingleColumnJustifyCSS3 text-center" align="center">
+                                <tbody>
+                                    @foreach (var v in subStrings)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(v))
+                                        {
+
+                                            <tr><td> @Html.Raw(v) </td></tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                        <div class="text-center row justify-content-center py-2 border-bottom border-light">
+                            <h6> <a href="/selection?id=@Model.idpoetry" class="urdu text-info text-center">  @Html.Raw(Model.title)</a></h6>
+                        </div>
+                        <div id="openingdiv" onclick="toggleMeters()" class="text-right" style="position: relative; cursor:pointer;">
+                            <i class="fa fa-caret-down"></i><span class="urdu-small text-secondary px-1">بحر</span>
+                        </div>
+                        <div class="text-center d-none table-responsive" id="tablemeters">
+                            <table class="table">
+                                @{
+                                    delimiters = new[] { ',', '،' };  // List of
+
+                                    subStrings = Model.meters.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                                    int meterID = 0;
+                                    foreach (var m in subStrings)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(m))
+                                        {
+                                            List<int> lst = Meters.meterIndex(m.Trim());
+                                            List<string> afail = new List<string>();
+
+                                            foreach (var k in lst)
+                                            {
+                                                if (k >= 0)
+                                                {
+                                                    if (Meters.usage[k] == 0)
+                                                    {
+                                                        // afail.Add(Meters.Afail(Meters.meters[k]) + " (غیر مستعمل وزن)");
+                                                    }
+                                                    else
+                                                    {
+                                                        afail.Add(Meters.Afail(Meters.meters[k]));
+                                                    }
+                                                }
+
+                                            }
+                                            if (afail.Count() > 0)
+                                            {
+
+                                                foreach (var t in afail)
+                                                {
+                                    <tr>
+                                        <td colspan="3" class="urdu-small text-info">
+                                            @Html.ActionLink(m, "Meters", "Selection", new { meter = m.Replace("/", "_") }, null)
+                                            <br>
+                                            <span class="urdu-small text-secondary">@Html.Raw(t)</span>
+                                        </td>
+                                    </tr>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                    <tr>
+                                        <td class="urdu-small text-info">
+                                            @Html.ActionLink(m, "Meters", "Selection", new { meter = m.Replace("/", "_") }, null)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                            }
+                                        }
+                                        meterID = meterID + 1;
+                                    }
+
+
+                                }
+                            </table>
+                        </div>
+                    
+                </div>
+                <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+
+                @{
+                    CommentsPanel panel = new CommentsPanel();
+                    panel.Id = Model.idpoetry;
+                    panel.Source = "selection";
+                    panel.LikedByMe = Model.LikedByMe;
+                    panel.Views = Model.views;
+                    panel.Comments = Model.comments;
+                    panel.Likes = Model.likes;
+                    panel.UserId = userId;
+                    await Html.RenderPartialAsync("~/Views/Shared/_PartialCommentsPanel.cshtml", panel);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+</div>
+<div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-12 align-self-center">
+            <div class="card   border-bottom-0" id="@Model.idpoetry">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-right">
+                            <p class="urdu-large text-right">اشعار کی تقطیع</p>
+                        </div>
+                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-left">
+                            <img src="~/icons/taqti.png" width="50" height="50" class="float-left">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body py-1" id="poetrypanel2">
+                    <div id="openingdiv2" onclick='toggleTaqti("@Model.idpoetry")' class="text-right" style="position: relative; cursor:pointer;">
+                        <i class="fa fa-caret-down"></i><span class="urdu-small text-secondary px-1">تقطیع دکھائیں</span>
+                    </div>
+                    <div class="d-none" id="tablemeters2">
+                        <div id="taqtiDiv">
+                            <img src="/icons/ajax-loader2.gif" class="center-align">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+</div>
+<div id="comments">
+    @{
+        CommentsHelper helper = new CommentsHelper(Model.idpoetry, "selection", false);
+        await Html.RenderPartialAsync("~/Views/Comments/Index.cshtml", helper);
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-info text-right" dir="rtl">
+                <h4 class="modal-title text-right urdu-naskh" id="modalLabel">معلومات</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer ml-auto">
+                <button type="button" class="btn btn-outline-primary btn-sm text-right" id="modal-button" onclick="modalButtonClicked()">
+                    <p id="button-label">
+                        بند کریں
+                    </p>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46123045-1', 'aruuz.com');
+    ga('send', 'pageview');
+
+</script>

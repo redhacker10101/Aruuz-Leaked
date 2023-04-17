@@ -1,0 +1,173 @@
+﻿@model Aruuz.Models.Input
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    ViewBag.Title = "تقطیع کا نتیجہ";
+
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var myVar = setInterval(myTimer, 100);
+        var myVar2 = setInterval(myTimer2, 1000);
+
+        function myTimer() {
+            populateProgress();
+        }
+
+        function myTimer2() {
+            var pdata = $('#pbar3').val();
+            if (pdata == 100) {
+                clearInterval(myVar);
+            }
+        }
+    });
+</script>
+
+
+
+@section meta{
+    <meta name="description" content="Scansion of Urdu Poetry into meters and feet">
+    <meta name="description" content="اردو شاعری کی تقطیع اور بحر اور وزن کی معلومات">
+
+    @if (!String.IsNullOrEmpty(Model.text))
+    {
+        <meta name="description" content="@Model.text">
+        <meta property="og:description" content="@Model.text" />
+    }
+    else
+    {
+        <meta name="description" content="خودکار تقطیع کار سافٹ ویئر کا نتیجہ">
+        <meta property="og:description" content="خودکار تقطیع کار سافٹ ویئر کا نتیجہ" />
+    }
+
+    <meta name="keywords" content="عروض، اردو شاعری، شاعری، بحور، بحور فہرست، بحر ہزج، بحر رمل، بحر متقارب، میر ہندی بحر، بحر ہندی، بحر رمزمہ، متدارک بحر">
+    <meta name="author" content="Sayed Zeeshan Asghar">
+    <meta property="fb:admins" content="sayedzeeshan.asghar" />
+    <meta property="fb:app_id" content="202167263310439" />
+    <meta property="fb:profile_id" content="sayedzeeshan.asghar" />
+    <meta property="og:type" content="aruuztaqti:poetry" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:image" content="/images/aruuz3.jpg" />
+
+}
+<style>
+    .red {
+        font-size: larger;
+        color: #f7054c;
+    }
+
+    .green {
+        color: #00ff21;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        resultTaqti();
+    });
+</script>
+
+<label class="d-none" id="inputCheckRes">@Model.isChecked.ToString()</label>
+<label class="d-none" id="inputTextRes">@Model.text.ToString()</label>
+<label class="d-none" id="RandText">@Model.rand.ToString()</label>
+
+<div class="container px-0">
+    <div class="urdu" id="detailsDiv">
+        <div class="row justify-content-center row-cols-lg-3 row-cols-md-3 row-cols-sm-3 col-xs-3">
+            <div class="card center-align  ">
+                <div class="card-header right-align">
+                    <p class="urdu-huge text-right text-info">
+                        ہدایات
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="col justify-content-center">
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <tr>
+                                    <td align="center">
+                                        <span class="label label-default urdu center-align">
+                                            کچھ دیر انتظار فرمائیں۔
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <progress id="pbar1" max="100" value="0"></progress>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card center-align  d-none">
+    <div class="card-header right-align">
+        <p class="urdu-huge text-right text-info">
+            ہدایات
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="col justify-content-center">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <tr>
+                        <td align="center">
+                            <span class="label label-default urdu center-align">
+                                کچھ دیر انتظار فرمائیں۔
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <progress id="pbar3" max="100" value="0"></progress>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-info text-right" dir="rtl">
+                <h4 class="modal-title text-right urdu-naskh" id="modalLabel">معلومات</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer ml-auto">
+                <button type="button" class="btn btn-outline-primary btn-sm text-right" id="modal-button" onclick="modalButtonClicked()">
+                    <p id="button-label">
+                        بند کریں
+                    </p>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46123045-1', 'aruuz.com');
+    ga('send', 'pageview');
+
+</script>

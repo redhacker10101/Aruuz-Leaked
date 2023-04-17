@@ -1,0 +1,186 @@
+﻿@model Aruuz.Models.CommentsHelper
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+@using System.Globalization
+
+@inject UserManager<AruuzUser> userManager
+
+@using (Html.BeginForm("Index", "Comments", FormMethod.Post))
+{
+@Html.ValidationSummary(true)
+@Html.AntiForgeryToken()
+    string userId = null;
+    var user = await userManager.GetUserAsync(User);
+    if (user != null)
+        userId = user?.Id;
+
+    if (!Model.Initialized)
+        Model.PupulateComments(userId);
+    var count = 1;
+    foreach (var m in Model.ListComments)
+    {
+        var s = @Model.Id + "#" + @m.IdUserComments;
+        var g = @m.IdUserComments;
+        var b = "#" + count.ToString();
+<style>
+    br {
+        line-height: 50%;
+    }
+</style>
+<div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+    <div class="row justify-content-center">
+        <div class="col col-md-12 col-12">
+            <div class="card   mb-0 border-bottom-0">
+                <div class="card-header py-1" id="@g">
+                    <div class="row" dir="rtl">
+                        <div class="col col-md-6 col-4">
+                            @if (m.Date != null)
+                                {
+                            <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                <i class="fa fa-clock-o"></i>
+                                @m.Date.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                            </a>
+                                }
+                            <br>
+                            <a href="/@Model.Source?id=@s" class="urdu-small text-info text-right float-right" style="text-align:right; color:gray">  @b </a>
+
+                        </div>
+                        @await Component.InvokeAsync("UserAvatar", @m.AspNetUserId)
+
+                    </div>
+                </div>
+                <div class="card-body urdu mb-2 pb-0">
+
+                    @if (CommentsHelper.IsEnglish(m.Text))
+                            {
+                    <div class="row justify-content-end">
+                        <div class="text-left english-font-normal" dir="ltr">
+                            @Html.Raw(m.Text.Replace("\n", "<br>"))
+                        </div>
+                    </div>
+                            }
+                            else
+                            {
+                    <div class="row justify-content-start">
+                        <div class="text-right">
+                            @Html.Raw(m.Text.Replace("\n", "<br>"))
+                        </div>
+                    </div>
+
+                            }
+
+                </div>
+                <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+
+                <div class="row pb-xl-2 pb-lg-2 pb-md-2 pb-sm-2 pb-2" dir="rtl">
+                    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+                        @if (m.LikedByMe)
+                            {
+                        <span class="fa fa-heart red pl-3" id="like_comments_@m.IdUserComments" onclick='likeToggle("comments","@m.CommentType","@m.IdUserComments","@m.ParentId","@userId")'>  </span>
+                            }
+                            else
+                            {
+                        <span class="fa fa-heart outline pl-3" id="like_comments_@m.IdUserComments" onclick='likeToggle("comments","@m.CommentType","@m.IdUserComments","@m.ParentId","@userId")'>  </span>
+                            }
+                        @if (m.Likes > 0)
+                            {
+                        <a class="english-font-small text-primary" id="like_comments_count_@m.IdUserComments" style="position: relative; cursor:pointer;" onclick='listLikes("comments","@m.IdUserComments")'> @m.Likes</a>
+                            }
+                            else
+                            {
+                        <span class="english-font-small d-none text-primary" id="like_comments_count_@m.IdUserComments" style="position: relative; cursor:pointer;" onclick='listLikes("comments","@m.IdUserComments")'> @m.Likes</span>
+                            }
+                    </div>
+                    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+                    </div>
+                    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+                    </div>
+                    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pt-2">
+</div>
+
+    count++;
+    }
+<div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+
+    @if (userId != null)
+    {
+    <fieldset>
+        <div class="row justify-content-center">
+            <div class="col col-md-12 col-12">
+                <div class="card   mb-0">
+                    <div class="card-body urdu mb-2 pb-0">
+                        <div class="row">
+                            @Html.TextAreaFor(Model => Model.Text, 8, 8, new { @class = "form-control input-block-level urdu-medium urdukb", @placeholder = " تبصرہ یہاں شامل کریں", @tabindex = "1" })
+                            @Html.HiddenFor(Model => Model.Id)
+                            @Html.HiddenFor(Model => Model.Source)
+                        </div>
+                        <div class="row mt-2" dir="rtl">
+                            <div class="col col-md-2 col-4 pt-md-2 pt-3">
+                                <input type="submit" class="btn btn-outline-primary float-right text-right urdu-medium" value="تبصرہ کریں" tabindex="1" />
+                            </div>
+                            <div class="urdu-medium col col-md-4 pt-md-2 float-right d-md-block d-none">
+                                <div class="btn btn-outline-secondary btn-sm float-right urdu-medium" onclick="infoClicked(3)" data-toggle="popover" data-content="اردو کی-بورڈ کے بغیر اس سایٹ میں انپٹ دینے کے لیے اس کی-بورڈ لے-آوٹ کا استعمال کریں" data-title="ہدایات">
+                                    <i class="fa fa-2x fa-keyboard-o"> </i>
+                                </div>
+                            </div>
+
+                            @await Component.InvokeAsync("UserAvatar", userId)
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    }
+    else
+    {
+    <fieldset>
+        <div class="row justify-content-center">
+            <div class="col col-md-12 col-12">
+                <div class="card   mb-0">
+                    <div class="card-body urdu mb-2 pb-0">
+                        <div class="row">
+                            @Html.TextAreaFor(Model => Model.Text, 8, 8, new { @class = "form-control input-block-level urdu-medium urdukb", @placeholder = " تبصرہ کرنے کے لئے داخل (لاگ اِن) ہوں ", @tabindex = "1", @readonly = "readonly" })
+                            @Html.HiddenFor(Model => Model.Id)
+                            @Html.HiddenFor(Model => Model.Source)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    }
+
+
+    </div>
+        }
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">معلومات</h5>
+
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" id="modal-button" onclick="modalButtonClicked()">
+                        <p id="button-label">
+                            بند کریں
+                        </p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

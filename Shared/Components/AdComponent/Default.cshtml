@@ -1,0 +1,51 @@
+﻿@model Aruuz.Models.HomeData
+
+
+    <div class="row justify-content-lg-center">
+        <div class="col-md-12 col-12 justify-content-center mx-auto">
+            <div class="card px-0">
+                <div class="card-header py-0">
+                    <p class="text-right text-info urdu-medium py-1">
+                        بلاگ پر تازہ ترین!
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div id="contents">
+                        @foreach (var m in Model.data)
+                        {
+                            m.source = "Home";
+                            if (m.active == 0)
+                            {
+                                <div class="row data_row" dir="rtl">
+                                    <div class="col col-md-6 col-4 text-right">
+                                        <a class="text-right" id="title_href" href="/poetry?id=@m.up.IdUserPoetry">@m.up.Title</a>
+                                    </div>
+                                    @await Component.InvokeAsync("UserAvatar", m.up.AspNetUserId)
+                                </div>
+                            }
+                            else if (m.active == 1)
+                            {
+                                <div class="row data_row" dir="rtl">
+                                    @Html.Raw(m.ud.Text)
+
+
+                                    @*<div class="col col-md-6 col-4 text-right">
+                                        <a class="text-right" id="title_href" href="/discussion?id=@m.ud.IdUserDiscussion">@Html.Raw(m.ud.Title)</a>
+                                    </div>
+                                    @await Component.InvokeAsync("UserAvatar", m.ud.AspNetUserId)*@
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setInterval(myTimer2, 100000);
+        carousel();
+    });
+</script>

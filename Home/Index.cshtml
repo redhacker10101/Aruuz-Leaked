@@ -1,0 +1,532 @@
+﻿@model Aruuz.Models.HomeData
+@using Aruuz.Models
+@{
+    ViewBag.Title = "تقطیع، شاعری اور بلاگ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    UserDiscussion usefulLinks = new UserDiscussion();
+    usefulLinks.FindByIdAdmin("bLKfbZjdexxAHSATpJ63", User.Identity.Name);
+}
+@section meta{
+    <meta name="description" content="اردو شاعری کی خود کار تقطیع اور بحر اور وزن کی معلومات۔ علم عروض پر مضامین۔ علم عروض سیکھیں۔ شاعری وزن میں کریں۔ شاعری کی اصلاح دیکھیں۔">
+    <meta name="description" content="Scansion of Urdu Poetry into meters and feet. Aruuz, Arooz, Aruz.">
+    <meta name="keywords" content="عروض، اردو شاعری، شاعری، بحور، بحور فہرست، بحر ہزج، بحر رمل، بحر متقارب، میر ہندی بحر، بحر ہندی، بحر رمزمہ، متدارک بحر, Arooz, Aruuz, Aruz">
+    <meta name="author" content="Sayed Zeeshan Asghar">
+    <meta property="fb:admins" content="sayedzeeshan.asghar" />
+    <meta property="fb:admins" content="sayedzeeshan.asghar" />
+    <meta property="fb:app_id" content="202167263310439" />
+    <meta property="fb:profile_id" content="sayedzeeshan.asghar" />
+    <meta property="og:type" content="aruuztaqti:poetry" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:image" content="/images/logo4.png" />
+}
+
+<style scoped>
+    /* The sidebar menu */
+    .sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 160px; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        right: 0;
+        background-color: #111; /* Black */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 20px;
+    }
+
+        /* The navigation menu links */
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+
+    /* Style page content */
+    .main {
+        margin-left: 160px; /* Same as the width of the sidebar */
+        padding: 0px 10px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+</style>
+@if (Model.user != null)
+{
+    var uname = "@" + Model.user.UserName;
+    <body class="profile-page">
+        <div class="page-header header-filter img-thumbnail" data-parallax="true" style="background-image: url('../..@Model.user.BannerURL');"></div>
+        <div class="main2 main-raised col-md-8 col-12 mx-auto px-0">
+            <div class="profile-content">
+                <div class="container px-0">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto">
+                            <div class="profile">
+                                <div class="avatar">
+                                    <img src="@Model.user.PhotoURL" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                </div>
+                                <div class="name">
+                                    @if (CommentsHelper.IsEnglish(@Model.user.Name))
+                                    {
+                                        <h3 class="title">@Model.user.Name</h3>
+                                    }
+                                    else
+                                    {
+                                        <h3 class="urdu-large">@Model.user.Name</h3>
+
+                                    }
+                                    <h6>@uname</h6>
+                                    <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-heart-o"></i></a>
+                                    <a href="/message/newmessage?id=@Model.user.UserName" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-envelope-o"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (CommentsHelper.IsEnglish(Model.user.TagLine))
+                    {
+                        <div class="description text-center">
+                            <p>@Model.user.TagLine</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="urdu text-center" style="color:darkgray">
+                            <p>@Model.user.TagLine</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="main main-raised2 col-md-8 col-12 mx-auto px-0">
+            @foreach (var m in Model.data)
+            {
+                m.source = "Home";
+                if (m.active == 0)
+                {
+                    await Html.RenderPartialAsync("_PartialPoetry", m.up);
+                    <div class="pt-2">
+                    </div>
+                }
+                else if (m.active == 1)
+                {
+                    await Html.RenderPartialAsync("_PartialDiscussion", m.ud);
+                    <div class=" pt-2">
+                    </div>
+                }
+                else if (m.active == 2)
+                {
+                    await Html.RenderPartialAsync("_PartialSelection", m.pc);
+                    <div class="pt-2">
+                    </div>
+                }
+            }
+        </div>
+    </body>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="main main-raised2 col-md-8 col-12 px-0 justify-content-center mx-auto">
+                <div class="container px-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card text-dark bg-light">
+                                <div class="card-header urdu mb-0 py-1">
+                                    <div class="row">
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-right my-2 mb-0">
+                                            <p class="urdu text-right text-info mt-1">اشعار کی تقطیع</p>
+                                        </div>
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-left py-2">
+                                            <img src="~/icons/taqti.png" width="35" height="35" class="float-left mt-2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body text-right">
+
+                                    <p class="urdu text-right mb-0">
+                                        کسی بھی اردو نظم، غزل، رباعی، آزاد نظم اور دیگر اصنافِ سخن کے اوزان، بحور و تقطیع خودکار طریقے سے چند ہی لمحوں میں معلوم کرنے کے لئے یہاں کلک کریں۔
+                                    </p>
+                                    <a class="urdu text-right stretched-link" href="/taqti">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card text-dark bg-light">
+                                <div class="card-header urdu mb-0 py-1">
+                                    <div class="row">
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-right my-2">
+                                            <p class="urdu text-right text-info my-1">اشعار کی اصلاح</p>
+                                        </div>
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-left py-2">
+                                            <img src="~/icons/create.png" width="35" height="35" class="float-left my-1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body text-right">
+                                    <div class="caption">
+                                        <p class="urdu text-right mb-0">
+                                            اپنے اشعار کی قریب ترین بحر اور اوزان و بحور سے متعلق اصلاح کے مشورے یہاں خود کار طریقے سے چند ہی لمحوں میں حاصل کرنے کے لئے یہاں کلک کریں۔
+                                        </p>
+                                        <a class="urdu text-right stretched-link" href="/create">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header urdu mb-0 py-1">
+                                    <div class="row">
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-right my-2">
+                                            <p class="urdu text-right text-info my-1">الفاظ کی تقطیع</p>
+                                        </div>
+                                        <div class="urdu col col-lg-6 col-md-6 col-sm-6 col-xs-6 float-left py-2">
+                                            <img src="~/icons/taqti.png" width="35" height="35" class="float-left my-1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body text-right">
+                                    <p class="urdu right-align pull-right mb-0" align="right">
+                                        مفرد الفاظ کی تقطیع دیکھنے کے لئے اس بٹن کو کلک کریں:  
+                                        <div class="btn btn-outline-dark" id="dictionaryBtn" onclick="dictionaryClicked()"><i class="fa fa-book"> </i></div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                    </div>
+
+                    @{await Html.RenderPartialAsync("_PartialDiscussionAdmin", usefulLinks);}
+                    <div class="pt-2">
+                    </div>
+                    @*@foreach (var m in Model.data)
+                        {
+                            m.source = "Home";
+                            if (m.active == 0)
+                            {
+                                await Html.RenderPartialAsync("_PartialPoetry", m.up);
+                                <div class="pt-2">
+                                </div>
+                            }
+                            else if (m.active == 1)
+                            {
+                                await Html.RenderPartialAsync("_PartialDiscussion", m.ud);
+                                <div class=" pt-2">
+                                </div>
+                            }
+                            else if (m.active == 2)
+                            {
+                                await Html.RenderPartialAsync("_PartialSelection", m.pc);
+                                <div class="pt-2">
+                                </div>
+                            }
+                        }
+                        <div id="morestuff" class="1"></div>*@
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-info text-right" dir="rtl">
+                <h4 class="modal-title text-right urdu-naskh" id="modalLabel">معلومات</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer ml-auto">
+                <button type="button" class="btn btn-outline-primary btn-sm text-right" id="modal-button" onclick="modalButtonClicked()">
+                    <p id="button-label" class="pt-2">
+                        بند کریں
+                    </p>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46123045-1', 'aruuz.com');
+    ga('send', 'pageview');
+
+    var big_image;
+
+
+
+    $(document).ready(function () {
+        BrowserDetect.init();
+
+        // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
+        $('body').bootstrapMaterialDesign();
+
+        window_width = $(window).width();
+
+        $navbar = $('.navbar[color-on-scroll]');
+        scroll_distance = $navbar.attr('color-on-scroll') || 500;
+
+        $navbar_collapse = $('.navbar').find('.navbar-collapse');
+
+        //  Activate the Tooltips
+        $('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
+
+        // Activate Popovers
+        $('[data-toggle="popover"]').popover();
+
+        if ($('.navbar-color-on-scroll').length != 0) {
+            $(window).on('scroll', materialKit.checkScrollForTransparentNavbar);
+        }
+
+        materialKit.checkScrollForTransparentNavbar();
+
+        if (window_width >= 768) {
+            big_image = $('.page-header[data-parallax="true"]');
+            if (big_image.length != 0) {
+                $(window).on('scroll', materialKit.checkScrollForParallax);
+            }
+
+        }
+
+
+    });
+
+    $(document).on('click', '.navbar-toggler', function () {
+        $toggle = $(this);
+
+        if (materialKit.misc.navbar_menu_visible == 1) {
+            $('html').removeClass('nav-open');
+            materialKit.misc.navbar_menu_visible = 0;
+            $('#bodyClick').remove();
+            setTimeout(function () {
+                $toggle.removeClass('toggled');
+            }, 550);
+
+            $('html').removeClass('nav-open-absolute');
+        } else {
+            setTimeout(function () {
+                $toggle.addClass('toggled');
+            }, 580);
+
+
+            div = '<div id="bodyClick"></div>';
+            $(div).appendTo("body").click(function () {
+                $('html').removeClass('nav-open');
+
+                if ($('nav').hasClass('navbar-absolute')) {
+                    $('html').removeClass('nav-open-absolute');
+                }
+                materialKit.misc.navbar_menu_visible = 0;
+                $('#bodyClick').remove();
+                setTimeout(function () {
+                    $toggle.removeClass('toggled');
+                }, 550);
+            });
+
+            if ($('nav').hasClass('navbar-absolute')) {
+                $('html').addClass('nav-open-absolute');
+            }
+
+            $('html').addClass('nav-open');
+            materialKit.misc.navbar_menu_visible = 1;
+        }
+    });
+
+    materialKit = {
+        misc: {
+            navbar_menu_visible: 0,
+            window_width: 0,
+            transparent: true,
+            fixedTop: false,
+            navbar_initialized: false,
+            isWindow: document.documentMode || /Edge/.test(navigator.userAgent)
+        },
+
+        initFormExtendedDatetimepickers: function () {
+            $('.datetimepicker').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down",
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-screenshot',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-remove'
+                }
+            });
+        },
+
+        initSliders: function () {
+            // Sliders for demo purpose
+            var slider = document.getElementById('sliderRegular');
+
+            noUiSlider.create(slider, {
+                start: 40,
+                connect: [true, false],
+                range: {
+                    min: 0,
+                    max: 100
+                }
+            });
+
+            var slider2 = document.getElementById('sliderDouble');
+
+            noUiSlider.create(slider2, {
+                start: [20, 60],
+                connect: true,
+                range: {
+                    min: 0,
+                    max: 100
+                }
+            });
+        },
+
+        checkScrollForParallax: function () {
+            oVal = ($(window).scrollTop() / 3);
+            big_image.css({
+                'transform': 'translate3d(0,' + oVal + 'px,0)',
+                '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
+                '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
+                '-o-transform': 'translate3d(0,' + oVal + 'px,0)'
+            });
+        },
+
+        checkScrollForTransparentNavbar: debounce(function () {
+            if ($(document).scrollTop() > scroll_distance) {
+                if (materialKit.misc.transparent) {
+                    materialKit.misc.transparent = false;
+                    $('.navbar-color-on-scroll').removeClass('navbar-transparent');
+                }
+            } else {
+                if (!materialKit.misc.transparent) {
+                    materialKit.misc.transparent = true;
+                    $('.navbar-color-on-scroll').addClass('navbar-transparent');
+                }
+            }
+        }, 17)
+    };
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this,
+                args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            }, wait);
+            if (immediate && !timeout) func.apply(context, args);
+        };
+    };
+
+    var BrowserDetect = {
+        init: function () {
+            this.browser = this.searchString(this.dataBrowser) || "Other";
+            this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+        },
+        searchString: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var dataString = data[i].string;
+                this.versionSearchString = data[i].subString;
+
+                if (dataString.indexOf(data[i].subString) !== -1) {
+                    return data[i].identity;
+                }
+            }
+        },
+        searchVersion: function (dataString) {
+            var index = dataString.indexOf(this.versionSearchString);
+            if (index === -1) {
+                return;
+            }
+
+            var rv = dataString.indexOf("rv:");
+            if (this.versionSearchString === "Trident" && rv !== -1) {
+                return parseFloat(dataString.substring(rv + 3));
+            } else {
+                return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+            }
+        },
+
+        dataBrowser: [{
+            string: navigator.userAgent,
+            subString: "Chrome",
+            identity: "Chrome"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "MSIE",
+            identity: "Explorer"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Trident",
+            identity: "Explorer"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Firefox",
+            identity: "Firefox"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Safari",
+            identity: "Safari"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Opera",
+            identity: "Opera"
+        }
+        ]
+
+    };
+
+    function change() { $('#path1').attr('fill', 'black'); }
+    function invert() { $('#path1').attr('fill', 'lightslategray'); }
+    function changecreate() { $('#path_create').attr('fill', 'black'); }
+    function invertcreate() { $('#path_create').attr('fill', 'lightslategray'); }
+    function changetaqti() { $('#path_taqti').attr('fill', 'black'); }
+    function inverttaqti() { $('#path_taqti').attr('fill', 'lightslategray'); }
+    function changeexamples() { $('#path_examples').attr('fill', 'black'); }
+    function invertexamples() { $('#path_examples').attr('fill', 'lightslategray'); }
+
+</script>

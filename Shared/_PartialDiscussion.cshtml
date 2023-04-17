@@ -1,0 +1,106 @@
+﻿@model Aruuz.Models.UserDiscussion
+@using System.Globalization
+@using Aruuz.Models
+@using Microsoft.AspNetCore.Identity
+@using Aruuz.Areas.Identity.Data;
+
+@inject UserManager<AruuzUser> userManager
+@{ var user = await userManager.GetUserAsync(User);
+    var userId = user?.Id;
+
+
+}
+<style scoped>
+    .highlightme {
+        background-color: #FFFF00;
+    }
+
+    .white {
+        color: #00ff21;
+    }
+
+    .fb-comments, .fb-comments span, .fb-comments.fb_iframe_widget span iframe {
+        width: 100% !important;
+    }
+
+    .poetrySingleColumnJustifyCSS3 td {
+        text-align: justify;
+        height: 1em;
+        line-height: 1;
+    }
+
+        .poetrySingleColumnJustifyCSS3 td::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            height: 2px;
+        }
+</style>
+<div class="row justify-content-center">
+    <div class="col col-lg-12 col-md-12 col-sm-12 col-12 align-self-center">
+        <div class="card border-bottom-0" id="@Model.IdUserDiscussion">
+            <div class="card-header bg-light py-1">
+                <div class="row" dir="rtl">
+                    <div class="col col-md-6 col-4">
+                        @if (Model.DatePublished != null)
+                        {
+                            <a style="text-align:right; color:darkgray" class="urdu-tiny float-right pl-1 pt-1">
+                                <i class="fa fa-clock-o"></i>
+                                @Model.DatePublished.ToString("d  MMMM", CultureInfo.CreateSpecificCulture("ur-PK"))
+                            </a>
+                        }
+                        <br>
+                        @foreach (var m in Model.tagsList)
+                        {
+                            string a = m;
+                            string ss = a;
+                            if (m.Equals("کوئی نہیں"))
+                            {
+
+                            }
+                            else
+                            {
+                            <a class="urdu-naskh-medium float-right px-1" href="/tags?name=@a">
+                                <span class="badge badge-info">@ss</span>
+                            </a>
+                            }
+                        }
+                    </div>
+                    @await Component.InvokeAsync("UserAvatar", Model.AspNetUserId)
+
+                </div>
+            </div>
+            <div class="card-body py-1"  style="transform: rotate(0);">
+                <div class="text-center pb-0 py-3 border-bottom border-light border-top">
+                    <h6>
+                        <a href="/discussion?id=@Model.IdUserDiscussion" class="text-info text-left" style="text-align:left; color:gray">@Html.Raw(Model.Title) </a>
+                    </h6>
+                </div>
+                <div>
+                    @Html.Raw(Model.Text)
+                    <a href="/discussion?id=@Model.IdUserDiscussion" class="stretched-link">
+                        <i class="fa fa-angle-double-left text-info"></i>
+                    </a>
+                </div>
+            </div>
+            <hr width="100%" class="my-xl-1 my-lg-1 my-md-1 my-sm-1 my-1">
+
+            @{
+                CommentsPanel panel = new CommentsPanel();
+                panel.Id = Model.IdUserDiscussion;
+                panel.Source = "discussion";
+                panel.LikedByMe = Model.LikedByMe;
+                panel.Views = Model.Views;
+                panel.Comments = Model.Comments;
+                panel.Likes = Model.Likes;
+                panel.UserId = userId;
+                await Html.RenderPartialAsync("~/Views/Shared/_PartialCommentsPanel.cshtml", panel);
+            }
+
+
+        </div>
+    </div>
+</div>
+

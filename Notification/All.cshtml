@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Aruuz.Models.NotificationHelper>
+@{
+    ViewBag.Title = "اطلاعات کا صفحہ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col col-lg-12 col-md-12 col-sm-12 col-12 align-self-center">
+        <div class="card border-bottom-0">
+            <div class="card-header bg-light py-1">
+                <div class="row" dir="rtl">
+                    <div class="col col-md-6 col-4 urdu text-info text-right">
+                        اطلاعات 
+                    </div>
+                </div>
+            </div>
+            <div class="card-body py-1" style="transform: rotate(0);">
+                <div class="table-responsive">
+                <table class="table text-right urdu-medium">
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (m.Read == 0)
+                                {
+                                    <a href="@m.Link" class="text-info" id="@m.Id">@m.Text</a>
+                                }
+                                else
+                                { <a href="@m.Link" class="text-secondary" id="@m.Id">@m.Text</a>
+
+                            }
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

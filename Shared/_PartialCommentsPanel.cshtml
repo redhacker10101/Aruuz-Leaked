@@ -1,0 +1,44 @@
+﻿@model Aruuz.Models.CommentsPanel
+@{
+    var ss = "like_"+Model.Source + "_" + Model.Id;
+    var vv = "like_" + Model.Source + "_count_" + Model.Id;
+}
+<div class="row pb-xl-2 pb-lg-2 pb-md-2 pb-sm-2 pb-2" dir="rtl">
+    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+        @if (Model.LikedByMe)
+        {
+            <span class="fa fa-heart red pl-3" id="@ss" style="position: relative; cursor:pointer;"  onclick='likeToggle("@Model.Source",null,"@Model.Id",null,"@Model.UserId")'>  </span>
+
+        }
+        else
+        {
+            <span class="fa fa-heart outline pl-3" id="@ss" style="position: relative; cursor:pointer;" onclick='likeToggle("@Model.Source",null,"@Model.Id",null,"@Model.UserId")'>  </span>
+
+        }
+        @if (Model.Likes > 0)
+        {
+            <a class="english-font-small text-primary" style="position: relative; cursor:pointer;" id="@vv" onclick='listLikes("@Model.Source","@Model.Id")'> @Model.Likes</a>
+        }
+        else
+        {
+            <span class="english-font-small d-none" id="@vv" style="position: relative; cursor:pointer;" onclick='listLikes("@Model.Source","@Model.Id")'> @Model.Likes</span>
+        }
+    </div>
+    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+        <a href="/@Model.Source?id=@Model.Id#comments" style="position: relative;"><span class="fa fa-comment pl-3" id="comment">    </span> </a>
+        @if (Model.Comments > 0)
+        {
+        <span class="english-font-small">@Model.Comments</span>
+        }
+    </div>
+    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+        <span class="fa  fa-hand-pointer-o pl-3">  </span>
+        @if (Model.Views > 0)
+        {
+            <span class="english-font-small">@Model.Views</span>
+        }
+    </div>
+    <div class="col col-lg-3 col-md-3 col-sm-3 col-3 text-center text-secondary">
+        <span class="fa fa-share">  </span>
+    </div>
+</div>
