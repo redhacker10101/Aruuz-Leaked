@@ -1,0 +1,44 @@
+﻿@page
+@model PicUploadModel
+@{
+    ViewData["Title"] = "Profile Picture";
+    ViewData["ActivePage"] = ManageNavPages.ProfilePic;
+}
+
+<style>
+img.avatar {
+  border-radius: 50%;
+}
+</style>
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label>Current Picture</label>
+            @if (!String.IsNullOrEmpty(Model.PictureURL))
+            {
+                <div>
+                    <img src="@Model.PictureURL" alt="Avatar" class="avatar">
+                    <div class="input-group-append">
+                        <span class="text-success font-weight-bold">✓</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <img asp-for="PictureURL" class="form-control" disabled />
+            }
+        </div>
+        <form enctype="multipart/form-data" method="post" asp-page-handler="ChangePhoto">
+            <input type="file" name="file" />
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
